@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Praveen Kumar | Front-End Developer</title>
+
+  <style>
+    /* =======================
+       Variables (light & dark)
+       ======================= */
+    :root{
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --primary: #3f51b5;
+      --accent: #00bcd4;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 6px 20px rgba(16,24,40,0.08);
+      --radius: 12px;
+      --maxw: 1100px;
+      --nav-h: 68px;
+    }
+    [data-theme="dark"]{
+      --bg: #0b1220;
+      --card: #071025;
+      --text: #e6eef8;
+      --muted: #9aa7c7;
+      --primary: #7c9cff;
+      --accent: #18d6d6;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+
+    /* =======================
+       Base / Layout
+       ======================= */
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,var(--bg),var(--bg));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 20px;}
+
+    /* =======================
+       Navbar
+       ======================= */
+    header{
+      position:fixed; inset:0 0 auto 0; height:var(--nav-h); backdrop-filter: blur(6px);
+      display:flex; align-items:center; z-index:60; width:100%;
+      box-shadow:var(--shadow); background:linear-gradient(90deg, transparent, transparent);
+    }
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; width:100%;}
+    .brand{font-weight:700; letter-spacing:0.2px}
+    nav ul{display:flex; gap:18px; list-style:none; margin:0; padding:0; align-items:center;}
+    nav a{color:var(--muted); padding:8px 10px; border-radius:8px; transition:all .22s}
+    nav a:hover{color:var(--primary); transform:translateY(-2px)}
+    .nav-actions{display:flex; gap:12px; align-items:center}
+
+    /* mobile nav */
+    .hamburger{display:none; width:40px; height:40px; border-radius:8px; background:var(--glass); border:1px solid rgba(0,0,0,0.04); align-items:center; justify-content:center; cursor:pointer}
+    .hamburger div{width:18px; height:2px; background:var(--text); transition:all .2s}
+
+    /* =======================
+       Hero
+       ======================= */
+    #hero{padding-top: calc(var(--nav-h) + 40px); padding-bottom:40px; min-height:72vh; display:flex; align-items:center}
+    .hero-grid{display:grid; grid-template-columns:1fr 420px; gap:32px; align-items:center;}
+    .hero-card{background:var(--card); padding:28px; border-radius:var(--radius); box-shadow:var(--shadow)}
+    .headline{font-size:clamp(1.6rem, 2.8vw, 2.8rem); margin:0 0 12px}
+    .sub{color:var(--muted); margin-bottom:18px}
+    .cta-row{display:flex; gap:12px; align-items:center}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; cursor:pointer; border:0; font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,var(--primary),var(--accent)); color:white; box-shadow: 0 8px 30px rgba(63,81,181,0.14)}
+    .btn-ghost{background:transparent; color:var(--text); border:1px solid rgba(0,0,0,0.06)}
+
+    /* typing effect */
+    .typing{display:inline-block; white-space:nowrap; overflow:hidden; vertical-align:bottom}
+    .typing::after{content:""; display:inline-block; width:2px; height:1.1em; background:var(--text); margin-left:6px; vertical-align:middle; animation:blink 1s steps(2,end) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    /* profile box */
+    .profile{
+      display:flex; gap:16px; align-items:center;
+      justify-content:center; flex-direction:column; text-align:center;
+    }
+    .avatar{
+      width:160px; height:160px; border-radius:18px; overflow:hidden; flex-shrink:0;
+      box-shadow:var(--shadow); display:inline-block; background:linear-gradient(135deg,var(--primary),var(--accent));
+      display:flex; align-items:center; justify-content:center; font-weight:800; color:white; font-size:2.2rem;
+    }
+    .meta{color:var(--muted); font-size:.95rem; margin-top:10px}
+
+    /* =======================
+       Sections and cards
+       ======================= */
+    section{padding:60px 0}
+    .section-title{font-size:1.4rem; font-weight:700; margin-bottom:18px}
+    .card{background:var(--card); padding:18px; border-radius:12px; box-shadow:var(--shadow)}
+
+    /* skills */
+    .skills{display:flex; gap:10px; flex-wrap:wrap}
+    .skill{background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent); padding:10px 12px; border-radius:10px; font-weight:600; color:var(--muted)}
+
+    /* projects grid */
+    .projects-grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(230px,1fr))}
+    .project{padding:16px; border-radius:12px; transition:transform .25s, box-shadow .25s; cursor:pointer}
+    .project:hover{transform:translateY(-8px); box-shadow:0 18px 40px rgba(2,6,23,0.08)}
+    .project .tech{font-size:.85rem; color:var(--muted); margin-top:8px}
+
+    /* contact */
+    .form-grid{display:grid; gap:10px; grid-template-columns:repeat(2,1fr)}
+    .form-grid input, .form-grid textarea{width:100%; padding:12px; border-radius:8px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:var(--text)}
+    .form-grid textarea{grid-column:1/-1; min-height:120px; resize:vertical}
+    .small{font-size:.9rem; color:var(--muted)}
+
+    /* footer */
+    footer{padding:28px 0; text-align:center; color:var(--muted)}
+
+    /* =======================
+       Animations (reveal)
+       ======================= */
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.revealed{opacity:1; transform:translateY(0)}
+
+    /* hero typing keyframes for a few words */
+    @keyframes type {
+      0% { width: 0 }
+      40% { width: 8ch }
+      60% { width: 8ch }
+      100% { width: 0 }
+    }
+    .type-rotator{display:inline-block; overflow:hidden; vertical-align:bottom; white-space:nowrap; font-weight:700}
+    .type-rotator span{display:inline-block; padding-right:8px}
+    .type-rotator .rot{animation: type 6s steps(20,end) infinite}
+
+    /* =======================
+       Responsive
+       ======================= */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr; text-align:left}
+      .profile{flex-direction:row; text-align:left}
+      .avatar{width:110px; height:110px}
+      .form-grid{grid-template-columns:1fr}
+      nav ul{display:none}
+      .hamburger{display:flex}
+    }
+    @media (max-width:520px){
+      .headline{font-size:1.6rem}
+      .avatar{width:96px;height:96px}
+      .container{padding:0 14px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-inner">
+      <div style="display:flex;gap:16px;align-items:center;">
+        <div class="brand">Praveen Kumar</div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn btn-ghost" title="Toggle theme">🌙</button>
+        <div class="hamburger" id="hamb">
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="container">
+      <div class="hero-grid">
+        <div class="hero-card reveal">
+          <h1 class="headline">Hi, I'm <span style="color:var(--primary)">Praveen</span> 👋</h1>
+          <p class="sub">Front-End Developer building modern, responsive web experiences.</p>
+
+          <p style="margin-bottom:14px">
+            <span class="small">I build</span>
+            <span class="type-rotator" aria-hidden="true">
+              <span class="rot">interactive UIs</span>
+            </span>
+            <span class="small"> &amp; delightful interfaces</span>
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="#contact">Contact Me</a>
+          </div>
+
+          <div style="margin-top:18px;" class="small">Tip: click <strong>View Projects</strong> or press <kbd>P</kbd> to open projects.</div>
+        </div>
+
+        <div class="profile reveal">
+          <div class="avatar" aria-hidden="true">PK</div>
+          <div style="text-align:center">
+            <div style="font-weight:700">Front-End Developer</div>
+            <div class="meta">HTML • CSS • JavaScript • Responsive UI</div>
+            <div style="margin-top:12px">
+              <a class="btn btn-ghost" href="#" onclick="downloadResume(event)">Download CV</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <div class="section-title reveal">About Me</div>
+      <div class="card reveal" style="margin-top:12px">
+        <p>I'm passionate about turning design into clean, accessible, and performant front-end code. I focus on responsive interfaces, small delightful animations, and thoughtful user interactions.</p>
+      </div>
+    </section>
+
+    <section id="skills" class="container">
+      <div class="section-title reveal">Skills</div>
+      <div class="card reveal" style="margin-top:12px">
+        <div class="skills">
+          <div class="skill">HTML</div>
+          <div class="skill">CSS (Flexbox / Grid)</div>
+          <div class="skill">JavaScript (ES6+)</div>
+          <div class="skill">Responsive Design</div>
+          <div class="skill">Accessibility</div>
+          <div class="skill">Performance</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="container">
+      <div class="section-title reveal">Projects</div>
+      <div class="projects-grid" style="margin-top:12px">
+        <div class="project card reveal">
+          <h3>Portfolio Website</h3>
+          <p class="tech">HTML • CSS • JS</p>
+          <p class="small">A responsive portfolio with animations and dark mode.</p>
+        </div>
+
+        <div class="project card reveal">
+          <h3>E-commerce UI</h3>
+          <p class="tech">HTML • CSS • JS</p>
+          <p class="small">Responsive product grid with filters and micro-interactions.</p>
+        </div>
+
+        <div class="project card reveal">
+          <h3>Weather App</h3>
+          <p class="tech">HTML • JS • API</p>
+          <p class="small">Fetches live weather and shows dynamic backgrounds.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="section-title reveal">Contact</div>
+      <div class="card reveal" style="margin-top:12px">
+        <form id="contactForm">
+          <div class="form-grid">
+            <input type="text" id="name" placeholder="Your name" required />
+            <input type="email" id="email" placeholder="Your email" required />
+            <textarea id="message" placeholder="Message" required></textarea>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:12px; align-items:center;">
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <div class="small">Or email me at <strong>youremail@example.com</strong></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="small">© <span id="year"></span> Praveen Kumar — Built with ❤️</div>
+    </div>
+  </footer>
+
+  <script>
+    /* --------------------------
+       Small helpers & DOM ready
+       -------------------------- */
+    const $ = sel => document.querySelector(sel);
+
+    // Set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* --------------------------
+       Theme toggle + persist
+       -------------------------- */
+    const themeToggle = $('#themeToggle');
+    const root = document.documentElement;
+
+    function setTheme(theme){
+      if(theme === 'dark') {
+        root.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '☀️';
+      } else {
+        root.removeAttribute('data-theme');
+        themeToggle.textContent = '🌙';
+      }
+      localStorage.setItem('theme', theme);
+    }
+
+    // initialize
+    const saved = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(saved === 'dark' ? 'dark' : 'light');
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    /* --------------------------
+       Mobile hamburger (simple)
+       -------------------------- */
+    const hamb = $('#hamb');
+    hamb && hamb.addEventListener('click', () => {
+      const nav = document.querySelector('nav ul');
+      if(!nav) return;
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // hide mobile nav on link click
+    document.querySelectorAll('nav a').forEach(a=>{
+      a.addEventListener('click', ()=> {
+        const nav = document.querySelector('nav ul');
+        if(window.innerWidth <= 980 && nav) nav.style.display = 'none';
+      });
+    });
+
+    /* --------------------------
+       Reveal on scroll (IntersectionObserver)
+       -------------------------- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* --------------------------
+       Contact form (simple)
+       -------------------------- */
+    const contactForm = $('#contactForm');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = $('#name').value.trim();
+      const email = $('#email').value.trim();
+      const message = $('#message').value.trim();
+      if(!name || !email || !message) return alert('Please fill all fields.');
+      // placeholder behavior — replace with real submission logic
+      alert(`Thanks ${name}! Your message was sent (demo).`);
+      contactForm.reset();
+    });
+
+    /* --------------------------
+       Keyboard shortcut: P -> scroll to projects
+       -------------------------- */
+    window.addEventListener('keydown', (e) => {
+      if(e.key.toLowerCase() === 'p') {
+        document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+      }
+    });
+
+    /* --------------------------
+       Download resume (demo)
+       -------------------------- */
+    function downloadResume(e){
+      e && e.preventDefault();
+      // In real project, put your resume file in public folder and link it.
+      // This demo will create a small text file to download.
+      const blob = new Blob([`Praveen Kumar\nFront-End Developer\nEmail: praveenpkg.com`], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Praveen-Kumar-Resume.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    window.downloadResume = downloadResume;
+
+    /* --------------------------
+       Tiny UI nicety: links smooth offset (account for fixed header)
+       -------------------------- */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(ev){
+        const target = document.querySelector(this.getAttribute('href'));
+        if(!target) return;
+        ev.preventDefault();
+        const y = target.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68) + 8;
+        window.scrollTo({top: y, behavior:'smooth'});
+      });
+    });
+
+  </script>
+</body>
+</html>
